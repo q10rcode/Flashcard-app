@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:id="@+id/backgroundView"
+    android:background="#009C9F"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:gravity="center"
+        android:background="@drawable/card_background"
         android:text="What is acceleration?"
         android:textSize="40sp"
         tools:ignore="InvalidId" />
@@ -20,11 +21,55 @@
     <TextView
         android:id="@+id/card_answer"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:visibility="invisible"
+        android:layout_height="100dp"
+        android:background="#d0faab"
         android:gravity="center"
-        android:text="Acceleration is the derivative of velocity."
-        android:textSize="40sp" />
+        android:text="Velocity vs. Time"
+        android:textSize="40sp"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/wrong1"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_below="@id/card_question"
+        android:layout_marginTop="68dp"
+        android:background="#C05841"
+        android:gravity="center"
+        android:text="Position vs. Time"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/wrong2"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_below="@id/wrong1"
+        android:layout_marginTop="30dp"
+        android:background="#C05841"
+        android:gravity="center"
+        android:text="Acceleration is speed"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/correct"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_below="@id/wrong2"
+        android:layout_marginTop="30dp"
+        android:background="#C05841"
+        android:gravity="center"
+        android:text="Velocity vs. Time"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/correct"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:id="@+id/toggle_choices_visibility"
+        android:src="@drawable/eye"
+        />
 
 </RelativeLayout
    >
