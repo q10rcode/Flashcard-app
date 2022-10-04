@@ -1,11 +1,13 @@
 package com.example.flashcardapp
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,5 +71,31 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            result ->
+
+            val data: Intent? = result.data
+
+            if(data != null){
+                val questionString = data.getStringExtra("QUESTION_KEY")
+                val answerString = data.getStringExtra("ANSWER_KEY")
+
+                cardQuestion.text = questionString
+                cardAnswer.text = answerString
+
+                firstOp.visibility = View.INVISIBLE
+                secondOp.visibility = View.INVISIBLE
+                thirdOp.visibility = View.INVISIBLE
+                hideButton.visibility = View.INVISIBLE
+            }
+        }
+
+            val addQuestionButton = findViewById<ImageView>(R.id.add_question_button)
+
+        //Move to add question activity
+        addQuestionButton.setOnClickListener {
+            val intent = Intent(this, AddCardActivity::class.java)
+            resultLauncher.launch(intent)
+        }
     }
 }
