@@ -4,19 +4,30 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        flashcardDatabase = FlashcardDatabase(this)
+        allFlashcards = flashcardDatabase.getAllCards().toMutableList()
+
         val cardQuestion = findViewById<TextView>(R.id.card_question)
         val cardAnswer = findViewById<TextView>(R.id.card_answer)
-
+        if(allFlashcards.isNotEmpty()) {
+            cardQuestion.text = allFlashcards[0].question
+            cardAnswer.text = allFlashcards[0].answer
+        }
         //Switch from Question to Answer
         cardQuestion.setOnClickListener {
             cardQuestion.visibility = View.INVISIBLE
@@ -71,17 +82,26 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //Launcher to recieve data from add question
         val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             result ->
 
             val data: Intent? = result.data
 
             if(data != null){
-                val questionString = data.getStringExtra("QUESTION_KEY")
-                val answerString = data.getStringExtra("ANSWER_KEY")
+                val questionText =  data.getStringExtra("QUESTION_KEY")
+                val answerText =  data.getStringExtra("ANSWER_KEY")
 
-                cardQuestion.text = questionString
-                cardAnswer.text = answerString
+                cardQuestion.text = questionText
+                cardAnswer.text = answerText
+
+                flashcardDatabase.insertCard(Flashcard(questionText.toString(), answerText.toString()))
+                allFlashcards = flashcardDatabase.getAllCards().toMutableList()
+
+                if(!questionText.isNullOrEmpty() && !answerText.isNullOrEmpty()) {
+                    flashcardDatabase.insertCard(Flashcard(questionText, answerText))
+                    allFlashcards = flashcardDatabase.getAllCards().toMutableList()
+                }
 
                 firstOp.visibility = View.INVISIBLE
                 secondOp.visibility = View.INVISIBLE
@@ -97,5 +117,51 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, AddCardActivity::class.java)
             resultLauncher.launch(intent)
         }
+
+        val nextCardButton = findViewById<ImageView>(R.id.next_button)
+        var currentCardIndex = 0
+
+        //Move to next card
+        nextCardButton.setOnClickListener {
+
+            Log.i("Index", "currentCardIndex: $currentCardIndex")
+            if (currentCardIndex != allFlashcards.size && currentCardIndex >= 0) {
+                currentCardIndex = getRandomNumber(0, allFlashcards.size - 1)
+                cardQuestion.text = allFlashcards[currentCardIndex].question
+                cardAnswer.text = allFlashcards[currentCardIndex].answer
+            }  else if(allFlashcards.size == 0){ //Pre
+                cardQuestion.text ="There are no more flash cards :("
+                cardAnswer.text = "Use the plus sign to create more"
+                Log.i("Index", "currentCardIndex: $currentCardIndex")
+            } else { //If the index is at the end
+                cardQuestion.text = allFlashcards[0].question
+                cardAnswer.text = allFlashcards[0].answer
+                currentCardIndex = 0
+            }
+
+        } //End of next button
+
+        //Delete Button
+        val deleteButton = findViewById<ImageView>(R.id.delete_button)
+
+        deleteButton.setOnClickListener {
+            val flashcardQuestionToDelete = findViewById<TextView>(R.id.card_question).text.toString()
+            if (allFlashcards.size > 0 ) {
+                flashcardDatabase.deleteCard(flashcardQuestionToDelete)
+                allFlashcards = flashcardDatabase.getAllCards().toMutableList()
+                cardQuestion.text ="Deleted!"
+                cardAnswer.text = "Deleted!"
+            }
+        } //End of delete button
+
+
+
+
+
+    } //End of onCreate
+    lateinit var flashcardDatabase: FlashcardDatabase
+    var allFlashcards = mutableListOf<Flashcard>()
+    fun getRandomNumber(minNumber: Int, maxNumber: Int): Int {
+        return (minNumber..maxNumber).random() // generated random from 0 to 10 included
     }
 }

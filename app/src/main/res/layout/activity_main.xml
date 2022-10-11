@@ -80,5 +80,25 @@
         android:layout_alignParentEnd="true"
         />
 
+    <ImageView
+        android:id="@+id/next_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_next"
+        android:layout_below="@id/card_question"
+        android:layout_alignParentEnd="true"
+        />
+
+    <ImageView
+        android:id="@+id/delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_delete"
+        android:layout_below="@id/card_question"
+        android:layout_alignParentEnd="false"
+        />
+
+
+
 </RelativeLayout
    >
