@@ -1,5 +1,28 @@
 ## FlashCard App
 
+
+## Lab 4
+
+### App Description
+Animations have been added to the app. The "add card" and "cancel" button feature a sliding animation between screens. A new reveal animation was added to the question and answer card. Moving between cards also have a sliding animation. Some colors and designs were changed as well to make the app more appealing.
+
+### App Walk-though
+
+
+<img src="https://github.com/q10rcode/Flashcard-app/raw/master/FlashcardDemo%20Lab%204.gif" width=200><br>
+
+
+## Required
+- [x] User sees a transition animation when going from the main screen to the add card screen.
+- [x] User sees a reveal animation when the flashcard is tapped and the answer is shown
+- [x] User sees flashcards animating in / out when the 'next' button is tapped
+
+## Optional
+- [ ] Extra styling is added!
+- [ ] User sees a countdown timer for each question
+- [ ] User sees a 'card flip' animation when the card is tapped
+- [ ] User sees a celebration animation with confetti when they answer a question correctly
+
 ## Lab 3
 
 ### App Description
