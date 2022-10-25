@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewAnimationUtils
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -24,20 +27,49 @@ class MainActivity : AppCompatActivity() {
 
         val cardQuestion = findViewById<TextView>(R.id.card_question)
         val cardAnswer = findViewById<TextView>(R.id.card_answer)
+
+
         if(allFlashcards.isNotEmpty()) {
             cardQuestion.text = allFlashcards[0].question
             cardAnswer.text = allFlashcards[0].answer
         }
+
+
         //Switch from Question to Answer
         cardQuestion.setOnClickListener {
+            val cx = cardAnswer.width / 2
+            val cy = cardAnswer.height / 2
+
+            val finalRadius = Math.hypot(cx.toDouble(), cy.toDouble()).toFloat()
+
+            val anim = ViewAnimationUtils.createCircularReveal(cardAnswer, cx, cy, 0f, finalRadius)
+
+
             cardQuestion.visibility = View.INVISIBLE
             cardAnswer.visibility = View.VISIBLE
+
+            anim.duration = 300
+            anim.start()
         }
+
+
 
         //Switch from Answer to Question
         cardAnswer.setOnClickListener {
+            val cx = cardAnswer.width / 2
+            val cy = cardAnswer.height / 2
+
+            val finalRadius = Math.hypot(cx.toDouble(), cy.toDouble()).toFloat()
+
+            val anim = ViewAnimationUtils.createCircularReveal(cardQuestion, cx, cy, 0f, finalRadius)
+
             cardQuestion.visibility = View.VISIBLE
             cardAnswer.visibility = View.INVISIBLE
+
+            anim.duration = 300
+            anim.start()
+
+
 
 
         }
@@ -116,28 +148,53 @@ class MainActivity : AppCompatActivity() {
         addQuestionButton.setOnClickListener {
             val intent = Intent(this, AddCardActivity::class.java)
             resultLauncher.launch(intent)
+            overridePendingTransition(R.anim.right_in, R.anim.left_out)
         }
 
         val nextCardButton = findViewById<ImageView>(R.id.next_button)
         var currentCardIndex = 0
 
+
+
         //Move to next card
         nextCardButton.setOnClickListener {
 
-            Log.i("Index", "currentCardIndex: $currentCardIndex")
-            if (currentCardIndex != allFlashcards.size && currentCardIndex >= 0) {
-                currentCardIndex = getRandomNumber(0, allFlashcards.size - 1)
-                cardQuestion.text = allFlashcards[currentCardIndex].question
-                cardAnswer.text = allFlashcards[currentCardIndex].answer
-            }  else if(allFlashcards.size == 0){ //Pre
-                cardQuestion.text ="There are no more flash cards :("
-                cardAnswer.text = "Use the plus sign to create more"
-                Log.i("Index", "currentCardIndex: $currentCardIndex")
-            } else { //If the index is at the end
-                cardQuestion.text = allFlashcards[0].question
-                cardAnswer.text = allFlashcards[0].answer
-                currentCardIndex = 0
-            }
+            val leftOutAnim = AnimationUtils.loadAnimation(this, R.anim.left_out)
+            val rightInAnim = AnimationUtils.loadAnimation(this, R.anim.right_in)
+
+            leftOutAnim.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationStart(animation: Animation?) {
+                    Log.i("Index", "Animation start")
+
+                    cardQuestion.startAnimation(leftOutAnim)
+                }
+
+                override fun onAnimationEnd(animation: Animation?) {
+                    cardQuestion.startAnimation(rightInAnim)
+                    //set new card
+                    if (currentCardIndex != allFlashcards.size && currentCardIndex >= 0) {
+                        currentCardIndex = getRandomNumber(0, allFlashcards.size - 1)
+                        cardQuestion.text = allFlashcards[currentCardIndex].question
+                        cardAnswer.text = allFlashcards[currentCardIndex].answer
+                    }  else if(allFlashcards.size == 0){ //Pre
+                        cardQuestion.text ="There are no more flash cards :("
+                        cardAnswer.text = "Use the plus sign to create more"
+                        Log.i("Index", "currentCardIndex: $currentCardIndex")
+                    } else { //If the index is at the end
+                        cardQuestion.text = allFlashcards[0].question
+                        cardAnswer.text = allFlashcards[0].answer
+                        currentCardIndex = 0
+                    } // end of new card logic
+
+                }
+
+                override fun onAnimationRepeat(animation: Animation?) {
+                    // we don't need to worry about this method
+                }
+            })
+
+            cardQuestion.startAnimation(leftOutAnim)
+
 
         } //End of next button
 

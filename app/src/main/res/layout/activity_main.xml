@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:gravity="center"
+        android:layout_margin="@android:dimen/app_icon_size"
         android:background="@drawable/card_background"
         android:text="What is acceleration?"
         android:textSize="40sp"
@@ -21,9 +22,10 @@
     <TextView
         android:id="@+id/card_answer"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="#d0faab"
+        android:layout_height="200dp"
         android:gravity="center"
+        android:layout_margin="@android:dimen/app_icon_size"
+        android:background="@drawable/answer_background"
         android:text="Velocity vs. Time"
         android:textSize="40sp"
         android:visibility="invisible" />
@@ -31,9 +33,9 @@
     <TextView
         android:id="@+id/wrong1"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="50dp"
         android:layout_below="@id/card_question"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="5dp"
         android:background="#C05841"
         android:gravity="center"
         android:text="Position vs. Time"
@@ -42,7 +44,7 @@
     <TextView
         android:id="@+id/wrong2"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="50dp"
         android:layout_below="@id/wrong1"
         android:layout_marginTop="30dp"
         android:background="#C05841"
@@ -53,7 +55,7 @@
     <TextView
         android:id="@+id/correct"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="50dp"
         android:layout_below="@id/wrong2"
         android:layout_marginTop="30dp"
         android:background="#C05841"
@@ -64,7 +66,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@id/correct"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="30dp"
         android:gravity="center"
         android:id="@+id/toggle_choices_visibility"
@@ -85,6 +87,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/icon_next"
+        android:layout_marginTop="-45dp"
         android:layout_below="@id/card_question"
         android:layout_alignParentEnd="true"
         />
@@ -94,6 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/icon_delete"
+        android:layout_marginTop="-45dp"
         android:layout_below="@id/card_question"
         android:layout_alignParentEnd="false"
         />

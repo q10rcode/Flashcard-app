@@ -18,6 +18,7 @@ class AddCardActivity : AppCompatActivity() {
 
         findViewById<ImageView>(R.id.cancel_button).setOnClickListener {
             finish()
+            overridePendingTransition(R.anim.right_in, R.anim.left_out)
         } //end of cancel button
 
         val questionEditText = findViewById<EditText>(R.id.question_text)
