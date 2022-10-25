@@ -1,4 +1,26 @@
 ## FlashCard App
+
+## Lab 3
+
+### App Description
+Users are able to create new cards and scroll through their list of cards at random. Users are also able to delete the card that is currently displayed.
+
+### App Walk-though
+
+
+<img src="https://github.com/q10rcode/Flashcard-app/raw/master/FlashcardDemo%20Lab%203.gif" width=200><br>
+
+
+
+## Required
+- [x] User can create a card and still see their created card when the app is relaunched.
+- [x] User can create muliple cards and browse through all created cards
+
+## Optional
+- [x] User can delete a card and no longer see it in their deck anymore
+- [x] Flashcards are shown in random order instead of the order they were created in
+- [ ] User can edit a card and see the edit saved when they browse through their deck of cards
+- [ ] User can create flashcards with multiple answers and be able to browse through cards with multiple choice answers shown
 ## Lab 2
 
 ### App Description
